@@ -74,6 +74,7 @@
                     <td>{{ $project->prepare }}</td>
                     <td>
 
+
                         {!! Form::open(['method' => 'DELETE', 'route' => ['project.destroy',$project->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
                         {{ Form::hidden('id', $project->id) }}
                         <a class="btn btn-info" href="{{ url("project/{$project->id}") }}">管理</a>
