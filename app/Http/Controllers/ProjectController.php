@@ -16,10 +16,8 @@ class ProjectController extends Controller
         //
         $projects = Project::all();
         //案件資料關聯顧客
-        $projects = DB::table('projects')
-                        ->leftJoin('customers',"customers.id","=","projects.customer_id")
-                        ->select('projects.*', 'customers.title', 'customers.number')
-                        ->get();
+        $projects = $this->getProjectLeftJoinCustomer();
+
         $customers = array();
         //整理顧客資料
         foreach ( Customer::all() as $customer){
@@ -44,7 +42,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $project = Project::create($request->only($this->cols));
-        return redirect()->route('project',$project);
+        return redirect()->route('project.index',$project);
     }
 
     /**
@@ -56,6 +54,13 @@ class ProjectController extends Controller
     public function show($id)
     {
         //
+        $projects = $this->getProjectLeftJoinCustomer($id);
+
+//        dd($projects[0]);
+//        $projects->toArray();
+//        dd($projects);
+        return view("projectshow",["projects" => $projects]);
+
     }
 
     /**
@@ -66,7 +71,20 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $customer = Customer::findOrFail($project->customer_id);
+        //整理顧客資料(給表單用)
+        foreach ( Customer::all() as $customer){
+            $customers[$customer->id]=$customer->title.$customer->number;
+        }
+        //案件資料關聯顧客
+        $projects = $this->getProjectLeftJoinCustomer();
+        return view("project",[
+                        "project" => $project,
+                        "projects" => $projects,
+                        "customer" => $customer,
+                        "customers" => $customers,
+                    ]);
     }
 
     /**
@@ -79,6 +97,13 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $project = Project::findOrFail($id);
+        foreach($this->cols as $col){
+            $project->$col = $request->$col;
+        }
+        $project->save();
+        return redirect()->route('project.index');
+
     }
 
     /**
@@ -89,8 +114,26 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
         Project::destroy($id);
-        return redirect()->route('project');
+        return redirect()->route('project.index');
+    }
+
+    protected function getProjectLeftJoinCustomer($id=""){
+        if(empty($id)){
+            $projects = DB::table('projects')
+                ->leftJoin('customers',"customers.id","=","projects.customer_id")
+                ->select('projects.*', 'customers.title', 'customers.number')
+                ->get();
+            return $projects;
+        }else{
+            $project = DB::table('projects')
+                ->leftJoin('customers',"customers.id","=","projects.customer_id")
+                ->select('projects.*', 'customers.title', 'customers.number')
+                ->where('projects.id',$id)
+                ->take(1)
+                ->get();
+            return $project;
+        }
+
     }
 }
