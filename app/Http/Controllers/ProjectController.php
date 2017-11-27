@@ -20,13 +20,11 @@ class ProjectController extends Controller
                         ->leftJoin('customers',"customers.id","=","projects.customer_id")
                         ->select('projects.*', 'customers.title', 'customers.number')
                         ->get();
-//        dd($projects);
         $customers = array();
         //整理顧客資料
         foreach ( Customer::all() as $customer){
             $customers[$customer->id]=$customer->title.$customer->number;
         }
-
         return view('project',["projects" => $projects])
                 ->with("customers",$customers);
     }
@@ -45,9 +43,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request);
         $project = Project::create($request->only($this->cols));
-        dd($project);
         return redirect()->route('project',$project);
     }
 
@@ -94,5 +90,7 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+        Project::destroy($id);
+        return redirect()->route('project');
     }
 }
