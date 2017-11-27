@@ -2,21 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected  $cols = ['customer_id','name','person','date','prepare'];
+
     public function index()
     {
         //
         $projects = Project::all();
-        return view('project',$projects);
+        //案件資料關聯顧客
+        $projects = DB::table('projects')
+                        ->leftJoin('customers',"customers.id","=","projects.customer_id")
+                        ->select('projects.*', 'customers.title', 'customers.number')
+                        ->get();
+//        dd($projects);
+        $customers = array();
+        //整理顧客資料
+        foreach ( Customer::all() as $customer){
+            $customers[$customer->id]=$customer->title.$customer->number;
+        }
+
+        return view('project',["projects" => $projects])
+                ->with("customers",$customers);
     }
 
     /**
@@ -24,10 +36,6 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,7 +45,10 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd($request);
+        $project = Project::create($request->only($this->cols));
+        dd($project);
+        return redirect()->route('project',$project);
     }
 
     /**

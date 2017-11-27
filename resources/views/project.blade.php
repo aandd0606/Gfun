@@ -12,43 +12,43 @@
 
     <div class="col-md-3">
         <div class="form-group">
-            {{Form::label('title', '抬頭')}}
-            {{Form::text('title',null,['class' => 'form-control'])}}
+            {{Form::label('customer_id', '選擇顧客')}}
+            {{Form::select('customer_id',$customers,null,['class' => 'form-control'])}}
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="form-group">
-            {{Form::label('number', '統一編號')}}
-            {{Form::text('number',null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-3">
-
-        <div class="form-group">
-            {{Form::label('phone', '電話')}}
-            {{Form::text('phone',null,['class' => 'form-control'])}}
+            {{Form::label('name', '案件名稱')}}
+            {{Form::text('name',null,['class' => 'form-control'])}}
         </div>
     </div>
     <div class="col-md-3">
 
         <div class="form-group">
-            {{Form::label('fax', '傳真')}}
-            {{Form::text('fax',null,['class' => 'form-control'])}}
+            {{Form::label('person', '負責人')}}
+            {{Form::text('person',null,['class' => 'form-control'])}}
         </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-3">
+
         <div class="form-group">
-            {{Form::label('address', '地址')}}
-            {{Form::text('address',null,['class' => 'form-control'])}}
+            {{Form::label('date', '開始日期')}}
+            {{Form::date('date',null,['class' => 'form-control'])}}
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="form-group">
+            {{Form::label('prepare', '預算金額')}}
+            {{Form::text('prepare',null,['class' => 'form-control'])}}
         </div>
     </div>
     <div class="col-md-2">
 
     <div class="form-group">
         @if(request()->segment(3)=='edit')
-            {{Form::submit('修改顧客單位',['class'=>'btn btn-success'])}}
+            {{Form::submit('修改案件',['class'=>'btn btn-success'])}}
         @else
-            {{Form::submit('新增顧客單位',['class'=>'btn btn-success'])}}
+            {{Form::submit('新增案件',['class'=>'btn btn-success'])}}
         @endif
 
     </div>
@@ -64,21 +64,25 @@
 <div class="row">
     @if($projects)
         <table class="table ">
-            <tr><th>抬頭</th><th>統編</th><th>地址</th><th>電話</th><th>傳真</th><th>功能鍵</th></tr>
+            <tr><th>顧客</th><th>名稱</th><th>負責人</th><th>日期</th><th>預算金額</th><th>功能鍵</th></tr>
             @foreach ($projects as $project)
                 <tr>
-                    <td>{{ $project->title }}</td>
-                    <td>{{ $project->number }}</td>
-                    <td>{{ $project->address }}</td>
-                    <td>{{ $project->phone }}</td>
-                    <td>{{ $project->fax }}</td>
+                    <td>{{ $project->title }}({{ $project->number }})</td>
+                    <td>{{ $project->name }}</td>
+                    <td>{{ $project->person }}</td>
+                    <td>{{ $project->date }}</td>
+                    <td>{{ $project->prepare }}</td>
                     <td>
-                        <a href="{{ url("project/{$project->id}/edit") }}"
-                            class="btn btn-primary">修改</a>
+
                         {!! Form::open(['method' => 'DELETE', 'route' => ['project.destroy',$project->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
                         {{ Form::hidden('id', $project->id) }}
+                        <a class="btn btn-info" href="{{ url("project/{$project->id}") }}">管理</a>
+                        <a href="{{ url("project/{$project->id}/edit") }}"
+                           class="btn btn-primary">修改</a>
                         {{ Form::submit('刪除', ['class' => 'btn btn-danger']) }}
                         {{ Form::close() }}
+
+
                     </td>
                 </tr>
             @endforeach
