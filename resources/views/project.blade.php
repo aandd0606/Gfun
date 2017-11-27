@@ -4,9 +4,9 @@
     <h1>管理案件資料</h1>
 <div class="row">
     @if(request()->segment(3)=='edit')
-        {!! Form::model($case, ['route' => ['case.update',$case->id]]) !!}
+        {!! Form::model($project, ['route' => ['project.update',$project->id]]) !!}
     @else
-        {!! Form::open(['url' => 'case']) !!}
+        {!! Form::open(['url' => 'project']) !!}
     @endif
 
 
@@ -62,21 +62,21 @@
 
 
 <div class="row">
-    @if($cases)
+    @if($projects)
         <table class="table ">
             <tr><th>抬頭</th><th>統編</th><th>地址</th><th>電話</th><th>傳真</th><th>功能鍵</th></tr>
-            @foreach ($cases as $case)
+            @foreach ($projects as $project)
                 <tr>
-                    <td>{{ $case->title }}</td>
-                    <td>{{ $case->number }}</td>
-                    <td>{{ $case->address }}</td>
-                    <td>{{ $case->phone }}</td>
-                    <td>{{ $case->fax }}</td>
+                    <td>{{ $project->title }}</td>
+                    <td>{{ $project->number }}</td>
+                    <td>{{ $project->address }}</td>
+                    <td>{{ $project->phone }}</td>
+                    <td>{{ $project->fax }}</td>
                     <td>
-                        <a href="{{ url("case/{$case->id}/edit") }}"
+                        <a href="{{ url("project/{$project->id}/edit") }}"
                             class="btn btn-primary">修改</a>
-                        {!! Form::open(['method' => 'DELETE', 'route' => ['case.destroy',$case->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
-                        {{ Form::hidden('id', $case->id) }}
+                        {!! Form::open(['method' => 'DELETE', 'route' => ['project.destroy',$project->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
+                        {{ Form::hidden('id', $project->id) }}
                         {{ Form::submit('刪除', ['class' => 'btn btn-danger']) }}
                         {{ Form::close() }}
                     </td>

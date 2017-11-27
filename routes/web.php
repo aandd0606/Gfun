@@ -19,4 +19,4 @@ Route::resource('customer', 'CustomerController');
 //註冊協作廠商資源路由
 Route::resource('company', 'CompanyController');
 //註冊案件資源路由
-Route::resource('case', 'CaseController');
+Route::resource('project', 'ProjectController');

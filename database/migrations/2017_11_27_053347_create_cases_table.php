@@ -13,7 +13,7 @@ class CreateCasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cases', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id');//顧客單位序號
             $table->string('person');//負責人
