@@ -83,7 +83,7 @@
                             {!! Form::open(['method' => 'DELETE', 'route' => ['receipt.destroy',$receipt->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
                             {{ Form::hidden('id', $receipt->id) }}
                             <a class="btn btn-info" href="{{ url("receipts/{$receipt->id}") }}">管理</a>
-                            <a href="{{ url("project/{$receipt->id}/edit/$receipt->id") }}"
+                            <a href="{{ url("project/{$project->id}/edit/$receipt->id") }}"
                                class="btn btn-primary">修改</a>
                             {{ Form::submit('刪除', ['class' => 'btn btn-danger']) }}
                             {{ Form::close() }}

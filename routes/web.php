@@ -22,3 +22,5 @@ Route::resource('company', 'CompanyController');
 Route::resource('project', 'ProjectController');
 //註冊收據資源路由
 Route::resource('receipt', 'ReceiptController');
+//註冊project中有receipt表單修改的路由
+Route::get('project/{id}/edit/{receipt_id}','ProjectController@show');

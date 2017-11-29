@@ -52,16 +52,24 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$receipt_id="")
     {
-        //
+//        dd($receipt_id);
         //找出案件資料
         $projects = $this->getProjectLeftJoinCustomer($id);
         //找出收據資料
         $receipts = Receipt::where('project_id',$id)->get();
+        if(!empty($receipt_id)){
+        $receipt = Receipt::where('id',$receipt_id)->get();
+            return view("projectshow",["projects" => $projects])
+                    ->with("receipts",$receipts)
+                    ->with('receipt',$receipt);
+        }else{
+            return view("projectshow",["projects" => $projects])
+                ->with("receipts",$receipts);
+        }
 
-        return view("projectshow",["projects" => $projects])
-                    ->with("receipts",$receipts);
+
 
     }
 
