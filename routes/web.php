@@ -20,3 +20,5 @@ Route::resource('customer', 'CustomerController');
 Route::resource('company', 'CompanyController');
 //註冊案件資源路由
 Route::resource('project', 'ProjectController');
+//註冊收據資源路由
+Route::resource('receipt', 'ReceiptController');

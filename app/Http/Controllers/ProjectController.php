@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Project;
+use App\Receipt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,12 +55,13 @@ class ProjectController extends Controller
     public function show($id)
     {
         //
+        //找出案件資料
         $projects = $this->getProjectLeftJoinCustomer($id);
+        //找出收據資料
+        $receipts = Receipt::where('project_id',$id)->get();
 
-//        dd($projects[0]);
-//        $projects->toArray();
-//        dd($projects);
-        return view("projectshow",["projects" => $projects]);
+        return view("projectshow",["projects" => $projects])
+                    ->with("receipts",$receipts);
 
     }
 
