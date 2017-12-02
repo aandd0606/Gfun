@@ -1,65 +1,76 @@
 @extends('bs3')
 
 @section('content')
-    <h1>管理案件資料</h1>
-<div class="row">
-    @if(request()->segment(3)=='edit')
-        {!! Form::model($project, ['route' => ['project.update',$project->id]]) !!}
-    @else
-        {!! Form::open(['url' => 'project']) !!}
-    @endif
-
-
-    <div class="col-md-3">
-        <div class="form-group">
-            {{Form::label('customer_id', '選擇顧客')}}
-            {{Form::select('customer_id',$customers,null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {{Form::label('name', '案件名稱')}}
-            {{Form::text('name',null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-3">
-
-        <div class="form-group">
-            {{Form::label('person', '負責人')}}
-            {{Form::text('person',null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-3">
-
-        <div class="form-group">
-            {{Form::label('date', '開始日期')}}
-            {{Form::date('date',null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-7">
-        <div class="form-group">
-            {{Form::label('prepare', '預算金額')}}
-            {{Form::text('prepare',null,['class' => 'form-control'])}}
-        </div>
-    </div>
-    <div class="col-md-2">
-
-    <div class="form-group">
+    <h1>管理案件資料
+        @if( !request()->segment(3) == "edit" )
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+             開啟表單
+        </a>
+        @endif
+    </h1>
+@if( !request()->segment(3) == "edit" )
+<div class="collapse" id="collapseExample">
+@endif
+    <div class="row">
         @if(request()->segment(3)=='edit')
-            {{Form::submit('修改案件',['class'=>'btn btn-success'])}}
+            {!! Form::model($project, ['route' => ['project.update',$project->id]]) !!}
         @else
-            {{Form::submit('新增案件',['class'=>'btn btn-success'])}}
+            {!! Form::open(['url' => 'project']) !!}
         @endif
 
+
+        <div class="col-md-3">
+            <div class="form-group">
+                {{Form::label('customer_id', '選擇顧客')}}
+                {{Form::select('customer_id',$customers,null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('name', '案件名稱')}}
+                {{Form::text('name',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                {{Form::label('person', '負責人')}}
+                {{Form::text('person',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                {{Form::label('date', '開始日期')}}
+                {{Form::date('date',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                {{Form::label('prepare', '預算金額')}}
+                {{Form::text('prepare',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        <div class="form-group">
+            @if(request()->segment(3)=='edit')
+                {{Form::submit('修改案件',['class'=>'btn btn-success'])}}
+            @else
+                {{Form::submit('新增案件',['class'=>'btn btn-success'])}}
+            @endif
+
+        </div>
+        {{csrf_field()}}
+            @if(request()->segment(3)=='edit')
+            {{ Form::hidden('_method',"PUT") }}
+            @endif
+        {!! Form::close() !!}
+        </div>
     </div>
-    {{csrf_field()}}
-        @if(request()->segment(3)=='edit')
-        {{ Form::hidden('_method',"PUT") }}
-        @endif
-    {!! Form::close() !!}
-    </div>
+@if( !request()->segment(3) == "edit" )
 </div>
-
+@endif
 
 <div class="row">
     @if($projects)

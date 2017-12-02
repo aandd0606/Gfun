@@ -60,7 +60,8 @@ class ProjectController extends Controller
         //找出收據資料
         $receipts = Receipt::where('project_id',$id)->get();
         if(!empty($receipt_id)){
-        $receipt = Receipt::where('id',$receipt_id)->get();
+            $receipt = Receipt::where('id',$receipt_id)->first();
+//            dd($receipt);
             return view("projectshow",["projects" => $projects])
                     ->with("receipts",$receipts)
                     ->with('receipt',$receipt);

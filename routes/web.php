@@ -1,5 +1,5 @@
 <?php
-
+//use \Illuminate\Support\Facades\Route
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,3 +24,10 @@ Route::resource('project', 'ProjectController');
 Route::resource('receipt', 'ReceiptController');
 //註冊project中有receipt表單修改的路由
 Route::get('project/{id}/edit/{receipt_id}','ProjectController@show');
+//註冊收據細項資源路由
+//Route::resource('product', 'ProductController');
+//Route::get('product/{receipt_id}/receipt','ProductController@create');
+Route::get('product/receipt/{receipt_id}','ProductController@create')->name('product.receipt');
+Route::post('product','ProductController@store')->name('product.store');
+Route::delete('product/{id}','ProductController@destroy')->name('product.destroy');
+Route::put('product/{id}','ProductController@update')->name('product.update');
