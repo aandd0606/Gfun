@@ -32,3 +32,8 @@ Route::post('product','ProductController@store')->name('product.store');
 Route::delete('product/{id}','ProductController@destroy')->name('product.destroy');
 Route::put('product/{id}','ProductController@update')->name('product.update');
 Route::get('product/receipt/{receipt_id}/edit/{id}','ProductController@create')->name('product.receipt');
+Route::get('product/orderword/{receipt_id}','ProductController@orderWord')->name('product.orderword');
+Route::get('product/receiptword/{receipt_id}','ProductController@receiptWord')->name('product.receiptWord');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

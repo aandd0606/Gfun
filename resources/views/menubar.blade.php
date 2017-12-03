@@ -82,20 +82,34 @@
                 <li><a rel="tooltip" href="http://web.sisps.ptc.edu.tw/modules/tad_themes/admin/dropdown.php" title="選單設定"><i class="fa fa-plus-circle"></i></a></li>
 
                 <li><a rel="tooltip" href="http://web.sisps.ptc.edu.tw/admin.php" title="模組管理區"><span class="fa fa-th-large"></span></a></li>
+                @if(Auth::guest())
+                    <li><a href="{{ url("login") }}">登入</a></li>
+                @elseif(Auth::user()->power == 'admin')
+                    <li id="preview-menu">
+                        <a rel="tooltip" title="管理區" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            管理區 <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ url("customer") }}"><span class="fa fa-lock"></span>顧客管理</a>
+                                <a href="{{ url("company") }}"><span class="fa fa-lock"></span>協作廠商管理</a>
+                                <a href="{{ url("project") }}"><span class="fa fa-lock"></span>案件管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                @elseif(Auth::user()->power == 'user')
+                    <li id="preview-menu">
+                        <a rel="tooltip" title="使用者選單" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            管理區 <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ url("customer") }}"><span class="fa fa-lock"></span>成果上傳</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
-                <li id="preview-menu">
-                    <a rel="tooltip" title="管理區" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        管理區 <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ url("customer") }}"><span class="fa fa-lock"></span>顧客管理</a>
-                            <a href="{{ url("company") }}"><span class="fa fa-lock"></span>協作廠商管理</a>
-                            <a href="{{ url("project") }}"><span class="fa fa-lock"></span>案件管理</a>
-
-                        </li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>

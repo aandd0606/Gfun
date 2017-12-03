@@ -21,6 +21,8 @@
              開啟表單
         </a>
         @endif
+        <a class="btn btn-info" href="{{ url("product/orderword/{$receipt->id}") }}">估價單</a>
+        <a class="btn btn-warning" href="{{ url("product/receiptword/{$receipt->id}") }}">收據</a>
     </h1>
     <div class="row well">
         <p class="col-md-4">案子名稱：{{ $project->name }}</p>

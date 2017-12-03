@@ -7,6 +7,7 @@ use App\Project;
 use App\Receipt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
