@@ -16,15 +16,12 @@
         });
     </script>
     <h1>收據工作細項管理
-        {{--@if( !request()->segment(3) == "edit" )--}}
-        {{--<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">--}}
-             {{--開啟表單--}}
-        {{--</a>--}}
-        {{--@endif--}}
+        @if( !request()->segment(4) == "edit" )
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+             開啟表單
+        </a>
+        @endif
     </h1>
-{{--@if( !request()->segment(3) == "edit" )--}}
-{{--<div class="collapse" id="collapseExample">--}}
-{{--@endif--}}
     <div class="row well">
         <p class="col-md-4">案子名稱：{{ $project->name }}</p>
         <p class="col-md-4">案子負責人：{{ $project->person }}</p>
@@ -33,8 +30,12 @@
         <p class="col-md-4">統編：{{ $receipt->number }}</p>
         <p class="col-md-4">開出日期：{{ $receipt->outdate }}</p>
     </div>
+@if( !request()->segment(4) == "edit" )
+<div class="collapse" id="collapseExample">
+@endif
+
     <div class="row">
-        @if(request()->segment(3)=='edit')
+        @if(request()->segment(4)=='edit')
             {!! Form::model($product, ['route' => ['product.update',$product->id]]) !!}
         @else
             {!! Form::open(['url' => 'product']) !!}
@@ -99,7 +100,7 @@
 
         <div class="col-md-1">
             <div class="form-group">
-                @if(request()->segment(3)=='edit')
+                @if(request()->segment(4)=='edit')
                     {{Form::label('', '')}}
                     {{Form::submit('修改案件',['class'=>'btn btn-success'])}}
                 @else
@@ -110,13 +111,15 @@
             </div>
             {{csrf_field()}}
             {{ Form::hidden('receipt_id',$receipt->id)}}
-                {{--@if(request()->segment(3)=='edit')--}}
-                {{--{{ Form::hidden('_method',"PUT") }}--}}
-                {{--@endif--}}
+                @if(request()->segment(4)=='edit')
+                {{ Form::hidden('_method',"PUT") }}
+                @endif
             {!! Form::close() !!}
         </div>
     </div>
-
+@if( !request()->segment(4) == "edit" )
+</div>
+@endif
 <div class="row">
     @if($products)
         <table class="table ">
@@ -127,7 +130,7 @@
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->amount }}</td>
                     <td>{{ $product->subtotal }}</td>
-                    <td>{{ $product->company_id }}</td>
+                    <td>{{ $company->title }}</td>
                     <td>{{ $product->cost }}</td>
                     <td>{{ $product->detail }}</td>
                     <td>{{ $product->user_id }}</td>
