@@ -41,19 +41,24 @@
     }
 </style>
 <footer>
-    <div class="col-md-3">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ URL::to('img/line.jpg') }}"
+                 width="100px"
+                 class="img-rounded img-thumbnail img-responsive">
+            <p>LINE</p>
+            <p>FACEBOOK</p>
+        </div>
+        <div class="col-md-6">
+            <p>Phone：08-7383017</p>
+            <p>Fax：08-7383017</p>
+            <p>Mobile Phone：0928-785456</p>
+            <p>Address：屏東縣屏東市大連里興豐路74號</p>
+            <p>Mail：gfun0928@gmail.com</p>
+        </div>
+        <div class="col-md-3">
 
-        <p>LINE</p>
-        <p>FACEBOOK</p>
-    </div>
-    <div class="col-md-6">
-        <p>Phone:08-888888</p>
-        <p>Fax:08-888888</p>
-        <p>Address:屏東縣屏東市大連里興豐路74號</p>
-        <p>Mail：</p>
-    </div>
-    <div class="col-md-3">
-
+        </div>
     </div>
     <div class="col-md-offset-4 col-md-5"><p>Copyright © 2018 Gfun Inc. All rights reserved</p></div>
 </footer>

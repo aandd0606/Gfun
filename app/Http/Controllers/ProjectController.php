@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
-    protected  $cols = ['customer_id','name','person','date','prepare'];
+    protected  $cols = ['customer_id','name','person','date'];
 
     public function index()
     {

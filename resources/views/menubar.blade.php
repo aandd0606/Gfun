@@ -94,6 +94,7 @@
                                 <a href="{{ url("customer") }}"><span class="fa fa-lock"></span>顧客管理</a>
                                 <a href="{{ url("company") }}"><span class="fa fa-lock"></span>協作廠商管理</a>
                                 <a href="{{ url("project") }}"><span class="fa fa-lock"></span>案件管理</a>
+                                <a href="{{ url("admin") }}"><span class="fa fa-lock"></span>細項收支快速管理</a>
                             </li>
                         </ul>
                     </li>

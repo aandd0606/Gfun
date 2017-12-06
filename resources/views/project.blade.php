@@ -45,18 +45,20 @@
                 {{Form::date('date',null,['class' => 'form-control'])}}
             </div>
         </div>
-        <div class="col-md-7">
-            <div class="form-group">
-                {{Form::label('prepare', '預算金額')}}
-                {{Form::text('prepare',null,['class' => 'form-control'])}}
-            </div>
-        </div>
+        {{--<div class="col-md-7">--}}
+            {{--<div class="form-group">--}}
+                {{--{{Form::label('prepare', '預算金額')}}--}}
+                {{--{{Form::text('prepare',null,['class' => 'form-control'])}}--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="col-md-2">
 
         <div class="form-group">
             @if(request()->segment(3)=='edit')
+                {{Form::label('修改案件', '修改案件')}}
                 {{Form::submit('修改案件',['class'=>'btn btn-success'])}}
             @else
+                {{Form::label('新增案件', '新增案件')}}
                 {{Form::submit('新增案件',['class'=>'btn btn-success'])}}
             @endif
 
@@ -75,14 +77,15 @@
 <div class="row">
     @if($projects)
         <table class="table ">
-            <tr><th>顧客</th><th>名稱</th><th>負責人</th><th>日期</th><th>預算金額</th><th>功能鍵</th></tr>
+            <tr><th>顧客</th><th>名稱</th><th>負責人</th><th>日期</th><th>收據金額</th><th>已收金額</th><th>功能鍵</th></tr>
             @foreach ($projects as $project)
                 <tr>
                     <td>{{ $project->title }}({{ $project->number }})</td>
                     <td>{{ $project->name }}</td>
                     <td>{{ $project->person }}</td>
                     <td>{{ $project->date }}</td>
-                    <td>{{ $project->prepare }}</td>
+                    <td>輸入收據金額</td>
+                    <td>輸入已收金額</td>
                     <td>
 
 

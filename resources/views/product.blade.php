@@ -25,12 +25,16 @@
         <a class="btn btn-warning" href="{{ url("product/receiptword/{$receipt->id}") }}">收據</a>
     </h1>
     <div class="row well">
-        <p class="col-md-4">案子名稱：{{ $project->name }}</p>
+        <p class="col-md-4">案子名稱：<a href="{{ url("project/{$project->id}") }}">{{ $project->name }}</a></p>
         <p class="col-md-4">案子負責人：{{ $project->person }}</p>
         <p class="col-md-4">工作項目：{{ $receipt->work }}</p>
-        <p class="col-md-4">抬頭：{{ $receipt->title }}</p>
+        <p class="col-md-4">抬頭：<a href="{{ url("admin/customer/{$project->customer_id}") }}">{{ $receipt->title }}</a></p>
         <p class="col-md-4">統編：{{ $receipt->number }}</p>
         <p class="col-md-4">開出日期：{{ $receipt->outdate }}</p>
+        <p class="col-md-4">收據金額：{{ $receiptTotal }}</p>
+        <p class="col-md-4">廠商成本：{{ $costTotal }}</p>
+        <p class="col-md-4">已收金額：</p>
+
     </div>
 @if( !request()->segment(4) == "edit" )
 <div class="collapse" id="collapseExample">
@@ -87,18 +91,33 @@
                 {{Form::select('company_id',$companies,null,['class' => 'form-control'])}}
             </div>
         </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    {{Form::label('cost', '成本')}}
-                    {{Form::text('cost',null,['class' => 'form-control'])}}
-                </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{Form::label('cost', '成本')}}
+                {{Form::text('cost',null,['class' => 'form-control'])}}
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{Form::label('detail', '製作細節')}}
-                    {{Form::text('detail',null,['class' => 'form-control'])}}
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{Form::label('shipdate', '出貨日期')}}
+                {{Form::date('shipdate',null,['class' => 'form-control'])}}
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{Form::label('paymentdate', '貨款發出日期')}}
+                {{Form::date('paymentdate',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('detail', '製作細節')}}
+                {{Form::text('detail',null,['class' => 'form-control'])}}
+            </div>
+        </div>
 
         <div class="col-md-1">
             <div class="form-group">
@@ -125,7 +144,7 @@
 <div class="row">
     @if($products)
         <table class="table ">
-            <tr><th>品項</th><th>單價</th><th>數量</th><th>小計</th><th>協作廠商</th><th>成本</th><th>細節</th><th>負責人</th><th>功能鍵</th></tr>
+            <tr><th>品項</th><th>單價</th><th>數量</th><th>小計</th><th>協作廠商</th><th>成本</th><th>細節</th><th>出貨日期</th><th>貨款日期</th><th>功能鍵</th></tr>
             @foreach ($products as $product)
                 <tr>
                     <td>{{ $product->product }}</td>
@@ -135,7 +154,8 @@
                     <td>{{ $company->title }}</td>
                     <td>{{ $product->cost }}</td>
                     <td>{{ $product->detail }}</td>
-                    <td>{{ $product->user_id }}</td>
+                    <td>{{ $product->shipdate }}</td>
+                    <td>{{ $product->paymentdate }}</td>
                     <td>
 
 
@@ -152,6 +172,33 @@
             @endforeach
         </table>
     @endif
+    <div class="row">
+        <div class="col-md-3"><h2>收入金額管理</h2></div>
+        <div class="col-md-3">
+            @if(request()->segment(4)=='edit')
+                {!! Form::model($income, ['route' => ['income.update',$income->id]]) !!}
+            @else
+                {!! Form::open(['url' => 'income']) !!}
+            @endif
+            <div class="form-group">
+                {{Form::label('incomedate', '收入日期')}}
+                {{Form::text('incomedate',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{Form::label('income', '收入金額')}}
+                {{Form::text('income',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {{Form::label('income', '收入金額')}}
+                {{Form::text('income',null,['class' => 'form-control'])}}
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
 
 </div>
 @endsection

@@ -24,6 +24,10 @@ Route::resource('project', 'ProjectController');
 Route::resource('receipt', 'ReceiptController');
 //註冊project中有receipt表單修改的路由
 Route::get('project/{id}/edit/{receipt_id}','ProjectController@show');
+//註冊收入資源路由
+Route::resource('income', 'IncomeController');
+
+
 //註冊收據細項資源路由
 //Route::resource('product', 'ProductController');
 //Route::get('product/{receipt_id}/receipt','ProductController@create');
@@ -37,3 +41,7 @@ Route::get('product/receiptword/{receipt_id}','ProductController@receiptWord')->
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//管理頁面
+Route::get('/admin','AdminController@index')->name('admin');
+Route::post('/admin','AdminController@searchList')->name('admin.searchList');
