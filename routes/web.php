@@ -42,6 +42,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 //管理頁面
 Route::get('/admin','AdminController@index')->name('admin');
 Route::post('/admin','AdminController@searchList')->name('admin.searchList');

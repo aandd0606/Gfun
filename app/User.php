@@ -9,6 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +27,31 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function index()
+    {
+
+
+        $array = [1,3,3,4,5];
+        count($array);
+        $array = array_unique($array);
+
+        $array = [
+            [
+                'title' => '',
+                'content' => '',
+            ],
+            [],
+        ];
+
+        [
+            '', '', '',
+        ];
+
+        $collection = collect($array);
+        $array = $collection->map(function ($item) {
+            return $item['title'];
+        })->each(functon ());
+
+    }
 }

@@ -33,7 +33,7 @@
         <p class="col-md-4">開出日期：{{ $receipt->outdate }}</p>
         <p class="col-md-4">收據金額：{{ $receiptTotal }}</p>
         <p class="col-md-4">廠商成本：{{ $costTotal }}</p>
-        <p class="col-md-4">已收金額：</p>
+        <p class="col-md-4">已收金額：{{ $incomeTotal }}</p>
 
     </div>
 @if( !request()->segment(4) == "edit" )
@@ -173,32 +173,64 @@
         </table>
     @endif
     <div class="row">
-        <div class="col-md-3"><h2>收入金額管理</h2></div>
-        <div class="col-md-3">
-            @if(request()->segment(4)=='edit')
-                {!! Form::model($income, ['route' => ['income.update',$income->id]]) !!}
-            @else
+        <div class="col-md-2"><h2>收入管理</h2></div>
+        <div class="col-md-2">
+            {{--@if(request()->segment(4)=='edit')--}}
+                {{--{!! Form::model($income, ['route' => ['income.update',$income->id]]) !!}--}}
+            {{--@else--}}
                 {!! Form::open(['url' => 'income']) !!}
-            @endif
+            {{--@endif--}}
             <div class="form-group">
                 {{Form::label('incomedate', '收入日期')}}
-                {{Form::text('incomedate',null,['class' => 'form-control'])}}
+                {{Form::date('incomedate',null,['class' => 'form-control'])}}
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 {{Form::label('income', '收入金額')}}
                 {{Form::text('income',null,['class' => 'form-control'])}}
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
-                {{Form::label('income', '收入金額')}}
-                {{Form::text('income',null,['class' => 'form-control'])}}
+                {{Form::label('income', '收入方式')}}<br>
+                <label class="radio-inline">
+                {{ Form::radio('method','支票') }}支票
+                </label>
+                <label class="radio-inline">
+                {{ Form::radio('method','現金') }}現金
+                </label>
+
+{{--                {{Form::text('income',null,['class' => 'form-control'])}}--}}
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{--{{Form::label('store', '新增')}}--}}
+                {{Form::submit('新增收入',['class'=>'btn btn-success'])}}
+                {{ Form::hidden('receipt_id',$receipt->id) }}
+            </div>
+        </div>
+
         {!! Form::close() !!}
     </div>
 
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-10">
+    <table class="table ">
+        <tr><th>日期</th><th>金額</th><th>方式</th><th>管理</th></tr>
+    @if($incomes)
+        @foreach($incomes as $income)
+            <tr>
+                <td>{{ $income->incomedate }}</td>
+                <td>{{ $income->income }}</td>
+                <td>{{ $income->method }}</td>
+                <td>修改 刪除</td>
+            </tr>
+        @endforeach
+    @endif
+    </table>
+    </div>
 </div>
 @endsection

@@ -73,10 +73,11 @@
                     <td>{{ $customer->phone }}</td>
                     <td>{{ $customer->fax }}</td>
                     <td>
-                        <a href="{{ url("customer/{$customer->id}/edit") }}"
-                            class="btn btn-primary">修改</a>
+
                         {!! Form::open(['method' => 'DELETE', 'route' => ['customer.destroy',$customer->id],'onsubmit' => 'return confirm("確定要刪除嗎？")']) !!}
                         {{ Form::hidden('id', $customer->id) }}
+                        <a href="{{ url("customer/{$customer->id}/edit") }}"
+                           class="btn btn-primary">修改</a>
                         {{ Form::submit('刪除', ['class' => 'btn btn-danger']) }}
                         {{ Form::close() }}
                     </td>

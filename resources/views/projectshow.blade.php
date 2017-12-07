@@ -76,12 +76,12 @@
                                         {{Form::date('outdate',null,['class' => 'form-control'])}}
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        {{Form::label('total', '收據總金額')}}
-                                        {{Form::text('total',null,['class' => 'form-control'])}}
-                                    </div>
-                                </div>
+                                {{--<div class="col-md-3">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--{{Form::label('total', '收據總金額')}}--}}
+                                        {{--{{Form::text('total',null,['class' => 'form-control'])}}--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                                 {{csrf_field()}}
                                 {{ Form::hidden('project_id',request()->segment(2)) }}
 
