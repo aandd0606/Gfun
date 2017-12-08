@@ -72,7 +72,7 @@ class RegisterController extends Controller
         ]);
     }
 
-//    public function register(Request  $request){
-//        return response("<h1>系統目前不開放註冊2</h1>",202);
-//    }
+    public function register(Request  $request){
+        return response("<h1>系統目前不開放註冊2</h1>",202);
+    }
 }

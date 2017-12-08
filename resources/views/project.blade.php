@@ -77,15 +77,16 @@
 <div class="row">
     @if($projects)
         <table class="table ">
-            <tr><th>顧客</th><th>名稱</th><th>負責人</th><th>日期</th><th>收據金額</th><th>已收金額</th><th>功能鍵</th></tr>
+            <tr><th>顧客</th><th>名稱</th><th>負責人</th><th>日期</th><th>收據金額</th><th>廠商成本</th><th>已收金額</th><th>功能鍵</th></tr>
             @foreach ($projects as $project)
                 <tr>
                     <td>{{ $project->title }}({{ $project->number }})</td>
                     <td>{{ $project->name }}</td>
                     <td>{{ $project->person }}</td>
                     <td>{{ $project->date }}</td>
-                    <td>輸入收據金額</td>
-                    <td>輸入已收金額</td>
+                    <td>{{ $projectReceiptsTotal[$project->id] }}</td>
+                    <td>{{ $projectCostsTotal[$project->id] }}</td>
+                    <td>{{ $projectIncomesTotal[$project->id] }}</td>
                     <td>
 
 

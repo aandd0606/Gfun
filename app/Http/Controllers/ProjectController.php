@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Income;
+use App\Product;
 use App\Project;
 use App\Receipt;
 use Illuminate\Http\Request;
@@ -13,9 +15,28 @@ class ProjectController extends Controller
 {
     protected  $cols = ['customer_id','name','person','date'];
 
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if(Auth::check()){
+                if(Auth::user()->power == "admin"){
+                    return $next($request);//通過中介層
+                }else{
+                    //有登入沒有權限
+                    return response("沒有權限",202);
+                }
+            }else{
+                //根本沒登入
+                return response("沒有登入",202);
+            }
+        });
+
+    }
+
+
     public function index()
     {
-        //
+
         $projects = Project::all();
         //案件資料關聯顧客
         $projects = $this->getProjectLeftJoinCustomer();
@@ -25,10 +46,52 @@ class ProjectController extends Controller
         foreach ( Customer::all() as $customer){
             $customers[$customer->id]=$customer->title.$customer->number;
         }
+
+        //算出該案子的所有收據總價錢陣列
+        foreach($projects as $project){
+            $projectReceiptsTotal[$project->id]=$this->projectReceiptsTotal($project->id);
+            $projectCostsTotal[$project->id]=$this->projectCostsTotal($project->id);
+            $projectIncomesTotal[$project->id]=$this->projectIncomesTotal($project->id);
+        }
+
+        //算出收據總金額
+//        $receiptTotal = Product::where('receipt_id',$receipt_id)->sum('subtotal');
+        //算出廠商成本
+//        $costTotal = Product::where('receipt_id',$receipt_id)->sum('cost');
+        //算出收入總金額
+//        $incomeTotal = Income::where('receipt_id',$receipt_id)->sum('income');
+
         return view('project',["projects" => $projects])
+                ->with("projectReceiptsTotal",$projectReceiptsTotal)
+                ->with("projectCostsTotal",$projectCostsTotal)
+                ->with("projectIncomesTotal",$projectIncomesTotal)
                 ->with("customers",$customers);
     }
 
+        protected function projectReceiptsTotal($project_id=""){
+            $total=0;
+            $receipts = Receipt::where('project_id',$project_id)->get();
+            foreach($receipts as $receipt){
+                $total += Product::where('receipt_id',$receipt->id)->sum('subtotal');
+            }
+            return $total;
+        }
+    protected function projectCostsTotal($project_id=""){
+        $total=0;
+        $receipts = Receipt::where('project_id',$project_id)->get();
+        foreach($receipts as $receipt){
+            $total += Product::where('receipt_id',$receipt->id)->sum('cost');
+        }
+        return $total;
+    }
+    protected function projectIncomesTotal($project_id=""){
+        $total=0;
+        $receipts = Receipt::where('project_id',$project_id)->get();
+        foreach($receipts as $receipt){
+            $total += Income::where('receipt_id',$receipt->id)->sum('income');
+        }
+        return $total;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -135,6 +198,7 @@ class ProjectController extends Controller
             $projects = DB::table('projects')
                 ->leftJoin('customers',"customers.id","=","projects.customer_id")
                 ->select('projects.*', 'customers.title', 'customers.number')
+                ->orderByDesc('id')
                 ->get();
             return $projects;
         }else{

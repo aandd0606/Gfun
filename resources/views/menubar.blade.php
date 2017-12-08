@@ -79,15 +79,15 @@
             </ul>
             <ul class="nav navbar-nav navbar-right" id="main-menu-right">
 
-                <li><a rel="tooltip" href="http://web.sisps.ptc.edu.tw/modules/tad_themes/admin/dropdown.php" title="選單設定"><i class="fa fa-plus-circle"></i></a></li>
 
-                <li><a rel="tooltip" href="http://web.sisps.ptc.edu.tw/admin.php" title="模組管理區"><span class="fa fa-th-large"></span></a></li>
+
                 @if(Auth::guest())
                     <li><a href="{{ url("login") }}">登入</a></li>
+                    <li><a href="{{ route('register') }}">註冊</a></li>
                 @elseif(Auth::user()->power == 'admin')
-                    <li id="preview-menu">
-                        <a rel="tooltip" title="管理區" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            管理區 <span class="caret"></span>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -95,17 +95,36 @@
                                 <a href="{{ url("company") }}"><span class="fa fa-lock"></span>協作廠商管理</a>
                                 <a href="{{ url("project") }}"><span class="fa fa-lock"></span>案件管理</a>
                                 <a href="{{ url("admin") }}"><span class="fa fa-lock"></span>細項收支快速管理</a>
+                                <a href="{{ url("reset") }}"><span class="fa fa-lock"></span>更改密碼</a>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    登出
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
                         </ul>
                     </li>
                 @elseif(Auth::user()->power == 'user')
-                    <li id="preview-menu">
-                        <a rel="tooltip" title="使用者選單" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            管理區 <span class="caret"></span>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
+
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="{{ url("customer") }}"><span class="fa fa-lock"></span>成果上傳</a>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                    登出
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
                         </ul>
                     </li>

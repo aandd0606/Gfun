@@ -6,6 +6,7 @@ use App\Company;
 use App\Customer;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -15,6 +16,20 @@ class AdminController extends Controller
 
     public function __construct()
     {
+        $this->middleware(function ($request, $next) {
+            if(Auth::check()){
+                if(Auth::user()->power == "admin"){
+                    return $next($request);//通過中介層
+                }else{
+                    //有登入沒有權限
+                    return response("沒有權限",202);
+                }
+            }else{
+                //根本沒登入
+                return response("沒有登入",202);
+            }
+        });
+
         //取得所有顧客資料要產生表單陣列
         $customers = Customer::get();
         $this->customerArr[0]="";

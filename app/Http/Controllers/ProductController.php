@@ -8,6 +8,7 @@ use App\Product;
 use App\Project;
 use App\Receipt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -26,6 +27,25 @@ class ProductController extends Controller
         'shipdate',
         'paymentdate',
     ];
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if(Auth::check()){
+                if(Auth::user()->power == "admin"){
+                    return $next($request);//通過中介層
+                }else{
+                    //有登入沒有權限
+                    return response("沒有權限",202);
+                }
+            }else{
+                //根本沒登入
+                return response("沒有登入",202);
+            }
+        });
+
+    }
+
     public function index()
     {
         //

@@ -40,7 +40,7 @@
         background-color: #3385ff ;
     }
 </style>
-<footer>
+<footer style="background-color:#0d60dc;color: white;">
     <div class="row">
         <div class="col-md-3">
             <img src="{{ URL::to('img/line.jpg') }}"
